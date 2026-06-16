@@ -68,13 +68,13 @@ st.markdown(
     .pas-upload-status {{ display:flex; align-items:center; gap:10px; min-height:38px; background:#f7f8fa; border:1px solid #e5e7eb; border-radius:12px; padding:9px 12px; color:#0A0A0A; font-weight:900; margin-top:8px; }}
     .pas-upload-status.missing {{ background:#fff; border:1px dashed #cbd5e1; color:#475569; }}
     .pas-upload-tick {{ width:24px; height:24px; border-radius:50%; background:#108a37; color:white; display:inline-flex; align-items:center; justify-content:center; font-weight:950; flex:none; }}
-    .pas-period-card { background:#fff; border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 5px 18px rgba(15,23,42,.08); padding:18px 20px 14px; margin: 4px 0 18px; }
-    .pas-period-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
-    .pas-period-title { color:#0A0A0A; font-size:16px; font-weight:950; }
-    .pas-period-hint { color:#64748b; font-size:12px; font-weight:800; }
-    .pas-date-shell { background:#f7f8fa; border:1px solid #e5e7eb; border-radius:14px; padding:10px 12px 6px; }
-    .pas-date-label { color:#0A0A0A; font-size:12px; font-weight:950; margin-bottom:4px; }
-    .pas-date-arrow { display:flex; align-items:center; justify-content:center; height:68px; color:#0A0A0A; font-size:24px; font-weight:950; }
+    .pas-period-card {{ background:#fff; border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 5px 18px rgba(15,23,42,.08); padding:18px 20px 14px; margin: 4px 0 18px; }}
+    .pas-period-head {{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }}
+    .pas-period-title {{ color:#0A0A0A; font-size:16px; font-weight:950; }}
+    .pas-period-hint {{ color:#64748b; font-size:12px; font-weight:800; }}
+    .pas-date-shell {{ background:#f7f8fa; border:1px solid #e5e7eb; border-radius:14px; padding:10px 12px 6px; }}
+    .pas-date-label {{ color:#0A0A0A; font-size:12px; font-weight:950; margin-bottom:4px; }}
+    .pas-date-arrow {{ display:flex; align-items:center; justify-content:center; height:68px; color:#0A0A0A; font-size:24px; font-weight:950; }}
     div[data-testid="stFileUploader"] {{ margin:0 !important; }}
     div[data-testid="stFileUploader"] label {{ display:none !important; }}
     div[data-testid="stFileUploader"] section {{ background: transparent !important; border: 0 !important; min-height: 0 !important; padding: 0 !important; }}

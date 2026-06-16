@@ -934,6 +934,26 @@ def build_monthly(actuals):
     return monthly
 
 
+def safe_excel_sheet_name(value, used_names=None):
+    """Return a valid, unique Excel worksheet name."""
+    if used_names is None:
+        used_names = set()
+    name = str(value or "Site").strip()
+    name = re.sub(r"[\[\]\:\*\?\/\\]", "-", name)
+    name = re.sub(r"\s+", " ", name).strip(" .'")
+    if not name:
+        name = "Site"
+    base = name[:31]
+    candidate = base
+    counter = 1
+    while candidate.lower() in used_names:
+        suffix = f"_{counter}"
+        candidate = base[:31 - len(suffix)] + suffix
+        counter += 1
+    used_names.add(candidate.lower())
+    return candidate
+
+
 def excel_export(summary, monthly, raw, issues):
     output = BytesIO()
     with pd.ExcelWriter(output, engine="xlsxwriter", datetime_format="dd/mm/yyyy", date_format="dd/mm/yyyy") as writer:
@@ -962,9 +982,10 @@ def excel_export(summary, monthly, raw, issues):
                     ws.set_column(i, i, width, body_fmt)
 
         # One tab per site/job
+        used_sheet_names = {"summary", "raw data"}
         for _, srow in summary.iterrows():
             job = srow["Job"]
-            tab = str(job)[:31]
+            tab = safe_excel_sheet_name(job, used_sheet_names)
             site_detail = []
             for cat in COST_CATEGORIES:
                 forecast_col = f"Forecast {cat}"

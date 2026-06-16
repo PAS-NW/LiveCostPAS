@@ -63,14 +63,23 @@ st.markdown(
     .pas-hero-dot {{ color:#fff; opacity:.8; margin: 0 7px; }}
     .pas-hero-version {{ color:{PAS_YELLOW}; font-weight:950; }}
 
-    .pas-upload-card {{ background:#fff; border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 5px 18px rgba(15,23,42,.08); padding:16px 18px 14px; margin-bottom:14px; }}
+    .pas-upload-card {{ background:#fff; border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 5px 18px rgba(15,23,42,.08); padding:14px 18px 12px; margin-bottom:14px; }}
     .pas-upload-title {{ color:#0A0A0A; font-size:16px; font-weight:950; margin-bottom:10px; }}
+    .pas-upload-status {{ display:flex; align-items:center; gap:10px; min-height:44px; background:#f4f6f8; border:1px solid #dfe4ea; border-radius:12px; padding:10px 12px; color:#0A0A0A; font-weight:900; }}
+    .pas-upload-tick {{ width:24px; height:24px; border-radius:50%; background:#108a37; color:white; display:inline-flex; align-items:center; justify-content:center; font-weight:950; flex:none; }}
+    .pas-date-shell {{ background:#f4f6f8; border:1px solid #dfe4ea; border-radius:14px; padding:12px 14px 8px; }}
+    .pas-date-label {{ color:#0A0A0A; font-size:13px; font-weight:950; margin-bottom:6px; }}
     div[data-testid="stFileUploader"] {{ margin:0 !important; }}
     div[data-testid="stFileUploader"] label {{ display:none !important; }}
     div[data-testid="stFileUploader"] section {{ background: transparent !important; border: 0 !important; min-height: 0 !important; padding: 0 !important; }}
     div[data-testid="stFileUploaderDropzone"] {{ background: transparent !important; border: 0 !important; padding: 0 !important; min-height: 0 !important; }}
     div[data-testid="stFileUploaderDropzoneInstructions"] {{ display: none !important; }}
-    div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"] {{ display: none !important; }}
+    div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],
+    div[data-testid="stFileUploader"] [data-testid="stFileUploaderFileName"],
+    div[data-testid="stFileUploader"] [data-testid="stFileUploaderFileSize"],
+    div[data-testid="stFileUploader"] ul,
+    div[data-testid="stFileUploader"] div[role="list"],
+    div[data-testid="stFileUploader"] div[role="listitem"] {{ display:none !important; visibility:hidden !important; height:0 !important; min-height:0 !important; margin:0 !important; padding:0 !important; overflow:hidden !important; }}
     div[data-testid="stFileUploader"] button {{ background:#fff !important; color:#0A0A0A !important; border:1px solid #d7dce3 !important; border-radius:10px !important; font-weight:900 !important; min-height:44px !important; box-shadow:0 2px 8px rgba(0,0,0,.06) !important; }}
     div[data-testid="stFileUploader"] button * {{ color:#0A0A0A !important; fill:#0A0A0A !important; stroke:#0A0A0A !important; }}
     div[data-testid="stFileUploader"] small {{ color:#4b5563 !important; }}
@@ -196,6 +205,42 @@ def _file_size_label(uploaded_file):
 def render_selected_file_card(uploaded_file):
     """Native uploader only. Avoid extra uploaded-file cards/black boxes."""
     return
+
+
+def _stored_upload_to_file(state_key):
+    item = st.session_state.get(state_key)
+    if not item:
+        return None
+    bio = BytesIO(item["bytes"])
+    bio.name = item.get("name", "uploaded.xlsx")
+    return bio
+
+
+def upload_slot(title, state_key, widget_key):
+    """Show a clean PAS upload slot.
+
+    Once a file is uploaded, store it in session state and replace Streamlit's
+    native uploaded-file chip with a simple PAS green tick status.
+    """
+    stored = st.session_state.get(state_key)
+    st.markdown(f'<div class="pas-upload-card"><div class="pas-upload-title">{escape(title)}</div>', unsafe_allow_html=True)
+    if stored:
+        st.markdown(
+            f'<div class="pas-upload-status"><span class="pas-upload-tick">✓</span><span>{escape(title)} uploaded</span></div>',
+            unsafe_allow_html=True,
+        )
+        if st.button(f"Replace {title}", key=f"replace_{widget_key}", use_container_width=True):
+            st.session_state.pop(state_key, None)
+            st.rerun()
+        st.markdown('</div>', unsafe_allow_html=True)
+        return _stored_upload_to_file(state_key)
+
+    uploaded = st.file_uploader(title, type=["xlsx", "xlsm", "xls"], label_visibility="collapsed", key=widget_key)
+    if uploaded is not None:
+        st.session_state[state_key] = {"name": uploaded.name, "bytes": uploaded.getvalue(), "size": getattr(uploaded, "size", 0)}
+        st.rerun()
+    st.markdown('</div>', unsafe_allow_html=True)
+    return None
 
 
 def render_kpi(label, value, sub=""):
@@ -767,10 +812,12 @@ def build_summary(actuals, forecast, sites):
 
     summary["Overall Forecast"] = summary[[f"Forecast {c}" for c in COST_CATEGORIES]].sum(axis=1) + summary["Overhead"] + summary["Profit"]
     summary["Actual Cost"] = summary[[f"Actual {c}" for c in COST_CATEGORIES]].sum(axis=1)
+    summary["Actual Profit"] = summary["Overall Forecast"] - summary["Actual Cost"] - summary["Overhead"]
     summary["Live Variance"] = summary["Overall Forecast"] - summary["Actual Cost"]
     summary["Profit %"] = np.where(summary["Overall Forecast"] != 0, summary["Profit"] / summary["Overall Forecast"], 0)
+    summary["Actual Profit %"] = np.where(summary["Overall Forecast"] != 0, summary["Actual Profit"] / summary["Overall Forecast"], 0)
 
-    display_cols = ["Job", "Site", "Overall Forecast", "Actual Cost", "Live Variance", "Profit", "Profit %"]
+    display_cols = ["Job", "Site", "Overall Forecast", "Actual Cost", "Live Variance", "Profit", "Profit %", "Actual Profit", "Actual Profit %"]
     display_cols += [f"Forecast {c}" for c in COST_CATEGORIES]
     display_cols += [f"Actual {c}" for c in COST_CATEGORIES]
     display_cols += ["Overhead"]
@@ -848,38 +895,38 @@ def excel_export(summary, monthly, raw, issues):
 
 up1, up2 = st.columns(2)
 with up1:
-    st.markdown('<div class="pas-upload-card"><div class="pas-upload-title">Materials & Plant Spreadsheet</div>', unsafe_allow_html=True)
-    material_file = st.file_uploader("Materials & Plant Spreadsheet", type=["xlsx", "xlsm", "xls"], label_visibility="collapsed", key="materials")
-    if material_file:
-        render_selected_file_card(material_file)
-    st.markdown('</div>', unsafe_allow_html=True)
+    material_file = upload_slot("Materials & Plant Spreadsheet", "stored_materials_file", "materials")
 with up2:
-    st.markdown('<div class="pas-upload-card"><div class="pas-upload-title">Vehicles Spreadsheet</div>', unsafe_allow_html=True)
-    vehicle_file = st.file_uploader("Vehicles Spreadsheet", type=["xlsx", "xlsm", "xls"], label_visibility="collapsed", key="vehicles")
-    if vehicle_file:
-        render_selected_file_card(vehicle_file)
-    st.markdown('</div>', unsafe_allow_html=True)
+    vehicle_file = upload_slot("Vehicles Spreadsheet", "stored_vehicles_file", "vehicles")
 
 up3, up4 = st.columns(2)
 with up3:
-    st.markdown('<div class="pas-upload-card"><div class="pas-upload-title">Labour Spreadsheet</div>', unsafe_allow_html=True)
-    labour_file = st.file_uploader("Labour Spreadsheet", type=["xlsx", "xlsm", "xls"], label_visibility="collapsed", key="labour")
-    if labour_file:
-        render_selected_file_card(labour_file)
-    st.markdown('</div>', unsafe_allow_html=True)
+    labour_file = upload_slot("Labour Spreadsheet", "stored_labour_file", "labour")
 with up4:
-    st.markdown('<div class="pas-upload-card"><div class="pas-upload-title">Forecast Spreadsheet</div>', unsafe_allow_html=True)
-    forecast_file = st.file_uploader("Forecast Spreadsheet", type=["xlsx", "xlsm", "xls"], label_visibility="collapsed", key="forecast")
-    if forecast_file:
-        render_selected_file_card(forecast_file)
-    st.markdown('</div>', unsafe_allow_html=True)
+    forecast_file = upload_slot("Forecast Spreadsheet", "stored_forecast_file", "forecast")
 
 st.markdown('<div class="pas-upload-card"><div class="pas-upload-title">Reporting Period</div>', unsafe_allow_html=True)
 d1, d2 = st.columns(2)
 with d1:
-    report_from = st.date_input("From", value=date(date.today().year, 1, 1), format="DD/MM/YYYY", help="Only costs from this date onward will be included in the dashboard and export.")
+    st.markdown('<div class="pas-date-shell"><div class="pas-date-label">From</div>', unsafe_allow_html=True)
+    report_from = st.date_input(
+        "From",
+        value=date(date.today().year, 1, 1),
+        format="DD/MM/YYYY",
+        label_visibility="collapsed",
+        help="Only costs from this date onward will be included in the dashboard and export.",
+    )
+    st.markdown('</div>', unsafe_allow_html=True)
 with d2:
-    report_to = st.date_input("To", value=date.today(), format="DD/MM/YYYY", help="Open plant and vehicle hires are costed up to this date. Costs after this date are excluded.")
+    st.markdown('<div class="pas-date-shell"><div class="pas-date-label">To</div>', unsafe_allow_html=True)
+    report_to = st.date_input(
+        "To",
+        value=date.today(),
+        format="DD/MM/YYYY",
+        label_visibility="collapsed",
+        help="Open plant and vehicle hires are costed up to this date. Costs after this date are excluded.",
+    )
+    st.markdown('</div>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
 if report_from > report_to:
@@ -929,7 +976,6 @@ if run:
         st.stop()
 
 if not st.session_state["live_cost_results"]:
-    st.info("Upload the weekly files, set the From and To dates, then press Build Live Cost Report to populate the dashboard.")
     render_bottom_chase()
     st.stop()
 
@@ -946,9 +992,10 @@ if report_from and report_to:
 forecast_total = summary["Overall Forecast"].sum() if not summary.empty else 0
 actual_total = summary["Actual Cost"].sum() if not summary.empty else 0
 profit_total = summary["Profit"].sum() if not summary.empty else 0
+actual_profit_total = summary["Actual Profit"].sum() if "Actual Profit" in summary.columns and not summary.empty else 0
 variance_total = summary["Live Variance"].sum() if not summary.empty else 0
 
-k1, k2, k3, k4 = st.columns(4)
+k1, k2, k3, k4, k5 = st.columns(5)
 with k1:
     render_kpi("Overall Forecast", format_currency(forecast_total), "Forecast total across all sites")
 with k2:
@@ -956,14 +1003,16 @@ with k2:
 with k3:
     render_kpi("Forecast Profit", format_currency(profit_total), "Profit from Forecast Spreadsheet")
 with k4:
+    render_kpi("Actual Profit", format_currency(actual_profit_total), "Forecast less actual costs and overhead")
+with k5:
     render_kpi("Live Variance", format_currency(variance_total), "Forecast minus actual")
 
 st.markdown('<div class="pas-results-title">Live Cost Results</div>', unsafe_allow_html=True)
 st.markdown('<div class="pas-unmatched-pill">Site Summary</div>', unsafe_allow_html=True)
-summary_display_cols = ["Job", "Site", "Overall Forecast", "Actual Cost", "Live Variance", "Profit", "Profit %"]
+summary_display_cols = ["Job", "Site", "Overall Forecast", "Actual Cost", "Live Variance", "Profit", "Profit %", "Actual Profit", "Actual Profit %"]
 summary_display = summary[summary_display_cols].copy() if not summary.empty else pd.DataFrame(columns=summary_display_cols)
 for c in summary_display.columns:
-    if c == "Profit %":
+    if c in ["Profit %", "Actual Profit %"]:
         summary_display[c] = summary_display[c].map(lambda x: f"{x:.1%}" if pd.notna(x) else "")
     elif c not in ["Job", "Site"]:
         summary_display[c] = summary_display[c].map(format_currency)

@@ -1,17 +1,19 @@
 # PAS Live Cost Dashboard
 
-Streamlit app for building a weekly PAS Live Cost dashboard from four Excel uploads:
+Streamlit app for building a weekly PAS live cost dashboard from uploaded spreadsheets.
+
+## Uploads
 
 - Materials & Plant Spreadsheet
 - Vehicles Spreadsheet
 - Labour Spreadsheet
 - Forecast Spreadsheet
 
-## Current dashboard
+## Output
 
-- Site Summary only
-- From / To reporting period using DD/MM/YYYY calendar inputs
-- Excel export with Summary, site tabs and Raw Data
+- Site Summary dashboard
+- KPI cards including Overall Forecast, Actual Cost, Forecast Profit, Actual Profit and Live Variance
+- Excel export with summary and site tabs
 
 ## Run locally
 

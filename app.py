@@ -63,49 +63,40 @@ st.markdown(
     .pas-hero-dot {{ color:#fff; opacity:.8; margin: 0 7px; }}
     .pas-hero-version {{ color:{PAS_YELLOW}; font-weight:950; }}
 
-    .pas-upload-card {{ background:#fff; border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 5px 18px rgba(15,23,42,.08); padding:18px 20px; margin-bottom:16px; }}
-    .pas-upload-hero-card {{ display:flex; align-items:center; gap:18px; padding:28px 34px !important; }}
-    .pas-upload-icon {{ width:56px; height:56px; border-radius:14px; background:#FFD400; display:flex; align-items:center; justify-content:center; flex:none; box-shadow:0 6px 16px rgba(255,212,0,.25); }}
-    .pas-upload-icon svg {{ width:30px; height:30px; stroke:#0A0A0A; stroke-width:2.4; fill:none; stroke-linecap:round; stroke-linejoin:round; }}
-    .pas-upload-title {{ color:#0A0A0A; font-size:27px; font-weight:950; margin-bottom:5px; letter-spacing:-.02em; }}
-    .pas-upload-subtitle {{ color:#667085; font-size:17px; font-weight:700; }}
-    .pas-upload-status {{ display:flex; align-items:center; gap:18px; min-height:78px; background:#ffffff; border:1px solid #dfe4ea; border-radius:16px; padding:14px 22px; color:#0A0A0A; font-size:18px; font-weight:950; margin:10px 0; box-shadow:0 3px 13px rgba(15,23,42,.04); }}
-    .pas-upload-status.missing {{ background:#ffffff; border:1px solid #dfe4ea; color:#475569; }}
-    .pas-upload-tick {{ width:42px; height:42px; border-radius:50%; background:#08a13a; color:white; display:inline-flex; align-items:center; justify-content:center; font-size:24px; font-weight:950; flex:none; box-shadow:0 3px 12px rgba(8,161,58,.18); }}
-    /* Reporting period: polished single card */
-    .pas-period-title { color:#0A0A0A; font-size:27px; font-weight:950; line-height:1.1; text-align:center; margin: 4px 0 18px; letter-spacing:-.02em; }
-    .pas-date-label { color:#0A0A0A; font-size:16px; font-weight:950; margin-bottom:10px; }
-    div[data-testid="stVerticalBlockBorderWrapper"] {
+    .pas-upload-card {{ background:#fff; border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 5px 18px rgba(15,23,42,.08); padding:28px 34px 30px; margin-bottom:24px; }}
+    .pas-upload-head {{ display:flex; align-items:center; gap:18px; margin-bottom:22px; }}
+    .pas-upload-icon {{ width:56px; height:56px; border-radius:16px; background:#FFD400; color:#0A0A0A; display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:950; box-shadow:0 6px 18px rgba(255,212,0,.22); }}
+    .pas-upload-title {{ color:#0A0A0A; font-size:26px; font-weight:950; line-height:1.05; margin:0; }}
+    .pas-upload-subtitle {{ color:#64748b; font-size:16px; font-weight:750; margin-top:4px; }}
+    .pas-upload-status {{ display:flex; align-items:center; gap:18px; min-height:72px; background:#ffffff; border:1px solid #dfe3e8; border-radius:16px; padding:16px 22px; color:#0A0A0A; font-size:18px; font-weight:950; margin:9px 0; box-shadow:0 2px 10px rgba(15,23,42,.03); }}
+    .pas-upload-status.missing {{ background:#f7f8fa; border:1px solid #dfe3e8; color:#475569; }}
+    .pas-upload-tick {{ width:38px; height:38px; border-radius:50%; background:#0ca13a; color:white; display:inline-flex; align-items:center; justify-content:center; font-size:24px; font-weight:950; flex:none; }}
+
+    .pas-period-title {{ text-align:center; color:#0A0A0A; font-size:26px; font-weight:950; line-height:1.1; margin:4px 0 20px; }}
+    .pas-date-shell {{ background:#f7f8fa; border:1px solid #dfe3e8; border-radius:16px; padding:14px 18px 16px; box-shadow:0 2px 10px rgba(15,23,42,.03); }}
+    .pas-date-label {{ color:#0A0A0A; font-size:16px; font-weight:950; margin-bottom:8px; }}
+    div[data-testid="stVerticalBlockBorderWrapper"] {{
         background:#ffffff !important;
-        border:1px solid #dfe4ea !important;
+        border:1px solid #e5e7eb !important;
         border-radius:18px !important;
-        box-shadow:0 6px 22px rgba(15,23,42,.07) !important;
-        padding:34px 40px 36px !important;
-        margin: 20px 0 24px !important;
-    }
-    div[data-testid="stDateInput"] { max-width:100% !important; }
-    div[data-testid="stDateInput"] > div { max-width:100% !important; }
-    div[data-testid="stDateInput"] input {
-        background:#ffffff !important;
-        color:#0A0A0A !important;
-        min-height:58px !important;
-        height:58px !important;
-        padding:12px 18px !important;
+        box-shadow:0 5px 18px rgba(15,23,42,.08) !important;
+        padding:24px 28px 30px !important;
+        margin: 2px 0 22px !important;
+    }}
+    div[data-testid="stDateInput"] {{ max-width:100% !important; }}
+    div[data-testid="stDateInput"] > div {{ max-width:100% !important; }}
+    div[data-testid="stDateInput"] input {{
+        min-height:52px !important;
+        height:52px !important;
+        padding:11px 14px !important;
         font-size:20px !important;
         font-weight:850 !important;
-        border:1px solid #d7dce3 !important;
-        border-radius:14px !important;
-        box-shadow:0 2px 8px rgba(15,23,42,.04) !important;
-    }
-    div[data-testid="stDateInput"] input:focus { border-color:#b5becb !important; box-shadow:0 0 0 3px rgba(255,212,0,.18) !important; }
-    div[data-testid="stDateInput"] svg { color:#0A0A0A !important; fill:#0A0A0A !important; }
-    div[data-testid="stVerticalBlockBorderWrapper"] .stButton > button {
-        min-height:64px !important;
-        font-size:20px !important;
-        border-radius:14px !important;
-        margin-top:18px !important;
-        box-shadow:0 8px 20px rgba(255,212,0,.28) !important;
-    }
+        border-radius:12px !important;
+        border:1px solid #d1d7de !important;
+        background:#ffffff !important;
+    }}
+    div[data-testid="stDateInput"] button {{ min-height:52px !important; border-radius:12px !important; background:#ffffff !important; }}
+    .pas-period-button-wrap div.stButton > button {{ min-height:64px !important; font-size:21px !important; border-radius:15px !important; box-shadow:0 8px 18px rgba(255,212,0,.22) !important; }}
     div[data-testid="stFileUploader"] {{ margin:0 !important; }}
     div[data-testid="stFileUploader"] label {{ display:none !important; }}
     div[data-testid="stFileUploader"] section {{ background: transparent !important; border: 0 !important; min-height: 0 !important; padding: 0 !important; }}
@@ -1049,15 +1040,16 @@ def excel_export(summary, monthly, raw, issues):
 # PAS Live Cost UI
 # ============================================================
 
-st.markdown('''
-<div class="pas-upload-card pas-upload-hero-card">
-  <div class="pas-upload-icon"><svg viewBox="0 0 24 24"><path d="M16 16l-4-4-4 4"/><path d="M12 12v9"/><path d="M20 16.6A5 5 0 0 0 18 7h-1.3A8 8 0 1 0 4 15.3"/></svg></div>
-  <div>
-    <div class="pas-upload-title">Upload Live Cost Spreadsheets</div>
-    <div class="pas-upload-subtitle">Upload your latest spreadsheets to build the live cost report</div>
+st.markdown("""
+<div class="pas-upload-card">
+  <div class="pas-upload-head">
+    <div class="pas-upload-icon">☁</div>
+    <div>
+      <div class="pas-upload-title">Upload Live Cost Spreadsheets</div>
+      <div class="pas-upload-subtitle">Upload your latest spreadsheets to build the live cost report</div>
+    </div>
   </div>
-</div>
-''', unsafe_allow_html=True)
+""", unsafe_allow_html=True)
 uploaded_files = st.file_uploader(
     "Upload Live Cost Spreadsheets",
     type=["xlsx", "xlsm", "xls"],
@@ -1075,7 +1067,7 @@ with s1:
 with s2:
     render_detection_status("Vehicles Spreadsheet", detected_files.get("vehicles"))
     render_detection_status("Forecast Spreadsheet", detected_files.get("forecast"))
-# upload hero card already closed
+st.markdown('</div>', unsafe_allow_html=True)
 
 material_file = file_to_bytesio(detected_files.get("materials"))
 vehicle_file = file_to_bytesio(detected_files.get("vehicles"))
@@ -1084,28 +1076,32 @@ forecast_file = file_to_bytesio(detected_files.get("forecast"))
 
 with st.container(border=True):
     st.markdown('<div class="pas-period-title">Reporting Period</div>', unsafe_allow_html=True)
-    spacer_l, p_from, p_to, spacer_r = st.columns([0.8, 1.25, 1.25, 0.8])
-    with p_from:
-        st.markdown('<div class="pas-date-label">From</div>', unsafe_allow_html=True)
-        report_from = st.date_input(
-            "From",
-            value=date(date.today().year, 1, 1),
-            format="DD/MM/YYYY",
-            label_visibility="collapsed",
-            help="Only costs from this date onward will be included in the dashboard and export.",
-        )
-    with p_to:
-        st.markdown('<div class="pas-date-label">To</div>', unsafe_allow_html=True)
-        report_to = st.date_input(
-            "To",
-            value=date.today(),
-            format="DD/MM/YYYY",
-            label_visibility="collapsed",
-            help="Open plant and vehicle hires are costed up to this date. Costs after this date are excluded.",
-        )
-    btn_l, btn_mid, btn_r = st.columns([0.55, 2.6, 0.55])
-    with btn_mid:
-        run = st.button("▶  Build Live Cost Report", use_container_width=True)
+    outer_l, centre, outer_r = st.columns([0.7, 2.6, 0.7])
+    with centre:
+        date_col_1, date_col_2 = st.columns(2, gap="large")
+        with date_col_1:
+            st.markdown('<div class="pas-date-shell"><div class="pas-date-label">From</div>', unsafe_allow_html=True)
+            report_from = st.date_input(
+                "From",
+                value=date(date.today().year, 1, 1),
+                format="DD/MM/YYYY",
+                label_visibility="collapsed",
+                help="Only costs from this date onward will be included in the dashboard and export.",
+            )
+            st.markdown('</div>', unsafe_allow_html=True)
+        with date_col_2:
+            st.markdown('<div class="pas-date-shell"><div class="pas-date-label">To</div>', unsafe_allow_html=True)
+            report_to = st.date_input(
+                "To",
+                value=date.today(),
+                format="DD/MM/YYYY",
+                label_visibility="collapsed",
+                help="Open plant and vehicle hires are costed up to this date. Costs after this date are excluded.",
+            )
+            st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown('<div class="pas-period-button-wrap">', unsafe_allow_html=True)
+        run = st.button("▷  Build Live Cost Report", use_container_width=True)
+        st.markdown('</div>', unsafe_allow_html=True)
 
 if report_from > report_to:
     st.error("The From date must be before or the same as the To date.")

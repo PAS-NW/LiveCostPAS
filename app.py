@@ -68,13 +68,17 @@ st.markdown(
     .pas-upload-status {{ display:flex; align-items:center; gap:10px; min-height:38px; background:#f7f8fa; border:1px solid #e5e7eb; border-radius:12px; padding:9px 12px; color:#0A0A0A; font-weight:900; margin-top:8px; }}
     .pas-upload-status.missing {{ background:#fff; border:1px dashed #cbd5e1; color:#475569; }}
     .pas-upload-tick {{ width:24px; height:24px; border-radius:50%; background:#108a37; color:white; display:inline-flex; align-items:center; justify-content:center; font-weight:950; flex:none; }}
-    .pas-period-card {{ background:#fff; border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 5px 18px rgba(15,23,42,.08); padding:18px 20px 14px; margin: 4px 0 18px; }}
-    .pas-period-head {{ display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }}
-    .pas-period-title {{ color:#0A0A0A; font-size:16px; font-weight:950; }}
-    .pas-period-hint {{ color:#64748b; font-size:12px; font-weight:800; }}
-    .pas-date-shell {{ background:#f7f8fa; border:1px solid #e5e7eb; border-radius:14px; padding:10px 12px 6px; }}
-    .pas-date-label {{ color:#0A0A0A; font-size:12px; font-weight:950; margin-bottom:4px; }}
-    .pas-date-arrow {{ display:flex; align-items:center; justify-content:center; height:68px; color:#0A0A0A; font-size:24px; font-weight:950; }}
+    .pas-period-card {{ background:#fff; border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 5px 18px rgba(15,23,42,.08); padding:18px 20px 16px; margin: 4px 0 18px; }}
+    .pas-period-row {{ display:flex; align-items:flex-end; gap:16px; flex-wrap:wrap; }}
+    .pas-period-title-block {{ min-width:185px; padding-bottom:9px; }}
+    .pas-period-title {{ color:#0A0A0A; font-size:16px; font-weight:950; line-height:1.1; }}
+    .pas-period-hint {{ color:#64748b; font-size:12px; font-weight:800; margin-top:4px; }}
+    .pas-date-label {{ color:#0A0A0A; font-size:12px; font-weight:950; margin-bottom:6px; }}
+    .pas-date-arrow {{ display:flex; align-items:center; justify-content:center; height:42px; color:#0A0A0A; font-size:22px; font-weight:950; padding:0 2px; }}
+    /* Sleek reporting-period date fields */
+    div[data-testid="stDateInput"] {{ max-width:170px !important; }}
+    div[data-testid="stDateInput"] > div {{ max-width:170px !important; }}
+    div[data-testid="stDateInput"] input {{ min-height:42px !important; height:42px !important; padding:8px 12px !important; font-size:13px !important; }}
     div[data-testid="stFileUploader"] {{ margin:0 !important; }}
     div[data-testid="stFileUploader"] label {{ display:none !important; }}
     div[data-testid="stFileUploader"] section {{ background: transparent !important; border: 0 !important; min-height: 0 !important; padding: 0 !important; }}
@@ -1005,10 +1009,12 @@ vehicle_file = file_to_bytesio(detected_files.get("vehicles"))
 labour_file = file_to_bytesio(detected_files.get("labour"))
 forecast_file = file_to_bytesio(detected_files.get("forecast"))
 
-st.markdown('<div class="pas-period-card"><div class="pas-period-head"><div class="pas-period-title">Reporting Period</div><div class="pas-period-hint">Costs included between these dates</div></div>', unsafe_allow_html=True)
-d1, arrow_col, d2 = st.columns([1, 0.08, 1])
-with d1:
-    st.markdown('<div class="pas-date-shell"><div class="pas-date-label">From</div>', unsafe_allow_html=True)
+st.markdown('<div class="pas-period-card">', unsafe_allow_html=True)
+p_title, p_from, p_arrow, p_to, p_spacer = st.columns([1.35, 1.05, 0.18, 1.05, 3.0])
+with p_title:
+    st.markdown('<div class="pas-period-title-block"><div class="pas-period-title">Reporting Period</div><div class="pas-period-hint">Set the dates for this report</div></div>', unsafe_allow_html=True)
+with p_from:
+    st.markdown('<div class="pas-date-label">From</div>', unsafe_allow_html=True)
     report_from = st.date_input(
         "From",
         value=date(date.today().year, 1, 1),
@@ -1016,11 +1022,10 @@ with d1:
         label_visibility="collapsed",
         help="Only costs from this date onward will be included in the dashboard and export.",
     )
-    st.markdown('</div>', unsafe_allow_html=True)
-with arrow_col:
+with p_arrow:
     st.markdown('<div class="pas-date-arrow">→</div>', unsafe_allow_html=True)
-with d2:
-    st.markdown('<div class="pas-date-shell"><div class="pas-date-label">To</div>', unsafe_allow_html=True)
+with p_to:
+    st.markdown('<div class="pas-date-label">To</div>', unsafe_allow_html=True)
     report_to = st.date_input(
         "To",
         value=date.today(),
@@ -1028,7 +1033,6 @@ with d2:
         label_visibility="collapsed",
         help="Open plant and vehicle hires are costed up to this date. Costs after this date are excluded.",
     )
-    st.markdown('</div>', unsafe_allow_html=True)
 st.markdown('</div>', unsafe_allow_html=True)
 
 if report_from > report_to:

@@ -15,3 +15,6 @@ Upload all live-cost spreadsheets into the single uploader:
 - Forecast Spreadsheet
 
 The app detects each workbook automatically, then builds a site summary report for the selected reporting period.
+
+
+Version: v1.9 Reporting Period UI rebuild.

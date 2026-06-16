@@ -63,12 +63,18 @@ st.markdown(
     .pas-hero-dot {{ color:#fff; opacity:.8; margin: 0 7px; }}
     .pas-hero-version {{ color:{PAS_YELLOW}; font-weight:950; }}
 
-    .pas-upload-card {{ background:#fff; border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 5px 18px rgba(15,23,42,.08); padding:14px 18px 12px; margin-bottom:14px; }}
+    .pas-upload-card {{ background:#fff; border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 5px 18px rgba(15,23,42,.08); padding:18px 20px; margin-bottom:16px; }}
     .pas-upload-title {{ color:#0A0A0A; font-size:16px; font-weight:950; margin-bottom:10px; }}
-    .pas-upload-status {{ display:flex; align-items:center; gap:10px; min-height:44px; background:#f4f6f8; border:1px solid #dfe4ea; border-radius:12px; padding:10px 12px; color:#0A0A0A; font-weight:900; }}
+    .pas-upload-status {{ display:flex; align-items:center; gap:10px; min-height:38px; background:#f7f8fa; border:1px solid #e5e7eb; border-radius:12px; padding:9px 12px; color:#0A0A0A; font-weight:900; margin-top:8px; }}
+    .pas-upload-status.missing {{ background:#fff; border:1px dashed #cbd5e1; color:#475569; }}
     .pas-upload-tick {{ width:24px; height:24px; border-radius:50%; background:#108a37; color:white; display:inline-flex; align-items:center; justify-content:center; font-weight:950; flex:none; }}
-    .pas-date-shell {{ background:#f4f6f8; border:1px solid #dfe4ea; border-radius:14px; padding:12px 14px 8px; }}
-    .pas-date-label {{ color:#0A0A0A; font-size:13px; font-weight:950; margin-bottom:6px; }}
+    .pas-period-card { background:#fff; border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 5px 18px rgba(15,23,42,.08); padding:18px 20px 14px; margin: 4px 0 18px; }
+    .pas-period-head { display:flex; align-items:center; justify-content:space-between; gap:12px; margin-bottom:12px; }
+    .pas-period-title { color:#0A0A0A; font-size:16px; font-weight:950; }
+    .pas-period-hint { color:#64748b; font-size:12px; font-weight:800; }
+    .pas-date-shell { background:#f7f8fa; border:1px solid #e5e7eb; border-radius:14px; padding:10px 12px 6px; }
+    .pas-date-label { color:#0A0A0A; font-size:12px; font-weight:950; margin-bottom:4px; }
+    .pas-date-arrow { display:flex; align-items:center; justify-content:center; height:68px; color:#0A0A0A; font-size:24px; font-weight:950; }
     div[data-testid="stFileUploader"] {{ margin:0 !important; }}
     div[data-testid="stFileUploader"] label {{ display:none !important; }}
     div[data-testid="stFileUploader"] section {{ background: transparent !important; border: 0 !important; min-height: 0 !important; padding: 0 !important; }}
@@ -80,19 +86,19 @@ st.markdown(
     div[data-testid="stFileUploader"] ul,
     div[data-testid="stFileUploader"] div[role="list"],
     div[data-testid="stFileUploader"] div[role="listitem"] {{ display:none !important; visibility:hidden !important; height:0 !important; min-height:0 !important; margin:0 !important; padding:0 !important; overflow:hidden !important; }}
-    div[data-testid="stFileUploader"] button {{ background:#fff !important; color:#0A0A0A !important; border:1px solid #d7dce3 !important; border-radius:10px !important; font-weight:900 !important; min-height:44px !important; box-shadow:0 2px 8px rgba(0,0,0,.06) !important; }}
+    div[data-testid="stFileUploader"] button {{ background:#FFD400 !important; color:#0A0A0A !important; border:1px solid #0A0A0A !important; border-radius:12px !important; font-weight:950 !important; min-height:48px !important; box-shadow:0 4px 14px rgba(255,212,0,.18) !important; }}
     div[data-testid="stFileUploader"] button * {{ color:#0A0A0A !important; fill:#0A0A0A !important; stroke:#0A0A0A !important; }}
     div[data-testid="stFileUploader"] small {{ color:#4b5563 !important; }}
 
     .stButton > button, .stDownloadButton > button {{ background: {PAS_YELLOW} !important; color: {PAS_BLACK} !important; border: 1px solid {PAS_BLACK} !important; border-radius: 12px !important; font-weight: 900 !important; min-height:52px !important; box-shadow:0 6px 18px rgba(255,212,0,.25) !important; }}
     .stDownloadButton > button {{ min-height:62px !important; font-size:20px !important; }}
 
-    .kpi-card {{ background:#fff !important; border-radius:18px !important; border:1px solid #e4e7eb !important; box-shadow:0 5px 20px rgba(15,23,42,.08) !important; min-height:118px !important; padding:18px 22px !important; display:flex; align-items:center; gap:18px; }}
-    .kpi-icon {{ width:64px; height:64px; border-radius:50%; background:#fff5bd; display:flex; align-items:center; justify-content:center; flex:none; }}
-    .kpi-icon svg {{ width:35px; height:35px; stroke:#0A0A0A; stroke-width:2.5; fill:none; stroke-linecap:round; stroke-linejoin:round; }}
+    .kpi-card {{ background:#fff !important; border-radius:18px !important; border:1px solid #e4e7eb !important; box-shadow:0 5px 20px rgba(15,23,42,.08) !important; height:116px !important; min-height:116px !important; padding:18px 18px !important; display:flex; align-items:center; gap:14px; overflow:hidden; }}
+    .kpi-icon {{ width:56px; height:56px; border-radius:50%; background:#fff5bd; display:flex; align-items:center; justify-content:center; flex:none; }}
+    .kpi-icon svg {{ width:30px; height:30px; stroke:#0A0A0A; stroke-width:2.5; fill:none; stroke-linecap:round; stroke-linejoin:round; }}
     .kpi-label {{ color:#111 !important; font-size:15px !important; font-weight:950 !important; margin:0 0 3px !important; }}
-    .kpi-value {{ color:#e9b900 !important; font-size:34px !important; line-height:1.02 !important; font-weight:950 !important; text-shadow:none !important; }}
-    .kpi-sub {{ color:#374151 !important; font-size:14px !important; margin-top:6px !important; }}
+    .kpi-value {{ color:#e9b900 !important; font-size:32px !important; line-height:1.02 !important; font-weight:950 !important; text-shadow:none !important; white-space:nowrap; }}
+    .kpi-sub {{ display:none !important; }}
 
     .pas-results-title {{ color:#0A0A0A !important; font-size:28px !important; font-weight:950 !important; margin: 22px 0 8px !important; }}
     .pas-unmatched-pill {{ display:inline-flex; background:{PAS_YELLOW} !important; color:#0A0A0A !important; border:0 !important; border-radius:14px 14px 0 0 !important; padding:13px 20px !important; font-size:18px; font-weight:950; box-shadow:0 4px 14px rgba(0,0,0,.09); margin-top:12px; }}
@@ -147,8 +153,8 @@ with st.sidebar:
         <div class="pas-sidebar-copy">Upload the weekly cost spreadsheets, then export a clean live cost report by site.</div>
         <div class="pas-sidebar-rule"></div>
         <div class="pas-sidebar-heading">Instructions</div>
-        <div class="pas-nav-row"><span class="pas-nav-icon"><svg viewBox="0 0 24 24"><path d="M16 16l-4-4-4 4"/><path d="M12 12v9"/><path d="M20 16.6A5 5 0 0 0 18 7h-1.3A8 8 0 1 0 4 15.3"/></svg></span><span>Upload Materials & Plant<br>Spreadsheet</span></div>
-        <div class="pas-nav-row"><span class="pas-nav-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></span><span>Upload Vehicles, Labour<br>and Forecast Spreadsheets</span></div>
+        <div class="pas-nav-row"><span class="pas-nav-icon"><svg viewBox="0 0 24 24"><path d="M16 16l-4-4-4 4"/><path d="M12 12v9"/><path d="M20 16.6A5 5 0 0 0 18 7h-1.3A8 8 0 1 0 4 15.3"/></svg></span><span>Upload all four<br>spreadsheets</span></div>
+        <div class="pas-nav-row"><span class="pas-nav-icon"><svg viewBox="0 0 24 24"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/><path d="M9 13h6"/><path d="M9 17h6"/></svg></span><span>Set reporting<br>period</span></div>
         <div class="pas-nav-row"><span class="pas-nav-icon"><svg viewBox="0 0 24 24"><path d="M5 3l14 9-14 9V3z"/></svg></span><span>Build Live Cost Report</span></div>
         <div class="pas-nav-row"><span class="pas-nav-icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></span><span>Download Excel<br>Spreadsheet</span></div>
         <div class="pas-nav-row"><span class="pas-nav-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg></span><span>Smoke Crack</span></div>
@@ -243,12 +249,62 @@ def upload_slot(title, state_key, widget_key):
     return None
 
 
+
+
+def file_to_bytesio(info):
+    if not info:
+        return None
+    bio = BytesIO(info["bytes"])
+    bio.name = info.get("name", "uploaded.xlsx")
+    return bio
+
+
+def detect_uploaded_files(uploaded_files):
+    """Detect the four required workbooks from a single multi-file uploader."""
+    detected = {"materials": None, "vehicles": None, "labour": None, "forecast": None}
+    for uploaded in uploaded_files or []:
+        name = uploaded.name.lower()
+        data = uploaded.getvalue()
+        sheet_names = []
+        try:
+            sheet_names = [str(x).lower() for x in pd.ExcelFile(BytesIO(data)).sheet_names]
+        except Exception:
+            sheet_names = []
+        sheet_blob = " ".join(sheet_names)
+        info = {"name": uploaded.name, "bytes": data}
+
+        if ("forecast" in name) or ("forecast" in sheet_names):
+            detected["forecast"] = info
+        elif ("labour" in name) or ("labour" in sheet_blob):
+            detected["labour"] = info
+        elif ("vehicle" in name) or ("vehicles" in sheet_blob) or ("off hire" in sheet_blob and "sold" in sheet_blob):
+            detected["vehicles"] = info
+        elif ("material" in name and "plant" in name) or ("plant" in sheet_names and ("materials" in sheet_blob or "agg" in sheet_blob or "subby" in sheet_blob)):
+            detected["materials"] = info
+        elif detected["materials"] is None and ("plant" in sheet_blob or "materials" in sheet_blob):
+            detected["materials"] = info
+
+    return detected
+
+
+def render_detection_status(label, info):
+    if info:
+        st.markdown(
+            f'<div class="pas-upload-status"><span class="pas-upload-tick">✓</span><span>{escape(label)} detected</span></div>',
+            unsafe_allow_html=True,
+        )
+    else:
+        st.markdown(
+            f'<div class="pas-upload-status missing"><span>○</span><span>{escape(label)} not detected</span></div>',
+            unsafe_allow_html=True,
+        )
+
 def render_kpi(label, value, sub=""):
     st.markdown(
         f"""
         <div class="kpi-card">
             <div class="kpi-icon"><svg viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M7 15l4-4 3 3 5-7"/></svg></div>
-            <div><div class="kpi-label">{escape(label)}</div><div class="kpi-value">{escape(str(value))}</div><div class="kpi-sub">{escape(sub)}</div></div>
+            <div><div class="kpi-label">{escape(label)}</div><div class="kpi-value">{escape(str(value))}</div></div>
         </div>
         """,
         unsafe_allow_html=True,
@@ -893,20 +949,33 @@ def excel_export(summary, monthly, raw, issues):
 # PAS Live Cost UI
 # ============================================================
 
-up1, up2 = st.columns(2)
-with up1:
-    material_file = upload_slot("Materials & Plant Spreadsheet", "stored_materials_file", "materials")
-with up2:
-    vehicle_file = upload_slot("Vehicles Spreadsheet", "stored_vehicles_file", "vehicles")
+st.markdown('<div class="pas-upload-card"><div class="pas-upload-title">Upload Live Cost Spreadsheets</div>', unsafe_allow_html=True)
+uploaded_files = st.file_uploader(
+    "Upload Live Cost Spreadsheets",
+    type=["xlsx", "xlsm", "xls"],
+    accept_multiple_files=True,
+    label_visibility="collapsed",
+    help="Upload the Materials & Plant, Vehicles, Labour and Forecast spreadsheets together.",
+    key="single_live_cost_uploader",
+)
+detected_files = detect_uploaded_files(uploaded_files)
 
-up3, up4 = st.columns(2)
-with up3:
-    labour_file = upload_slot("Labour Spreadsheet", "stored_labour_file", "labour")
-with up4:
-    forecast_file = upload_slot("Forecast Spreadsheet", "stored_forecast_file", "forecast")
+s1, s2 = st.columns(2)
+with s1:
+    render_detection_status("Materials & Plant Spreadsheet", detected_files.get("materials"))
+    render_detection_status("Labour Spreadsheet", detected_files.get("labour"))
+with s2:
+    render_detection_status("Vehicles Spreadsheet", detected_files.get("vehicles"))
+    render_detection_status("Forecast Spreadsheet", detected_files.get("forecast"))
+st.markdown('</div>', unsafe_allow_html=True)
 
-st.markdown('<div class="pas-upload-card"><div class="pas-upload-title">Reporting Period</div>', unsafe_allow_html=True)
-d1, d2 = st.columns(2)
+material_file = file_to_bytesio(detected_files.get("materials"))
+vehicle_file = file_to_bytesio(detected_files.get("vehicles"))
+labour_file = file_to_bytesio(detected_files.get("labour"))
+forecast_file = file_to_bytesio(detected_files.get("forecast"))
+
+st.markdown('<div class="pas-period-card"><div class="pas-period-head"><div class="pas-period-title">Reporting Period</div><div class="pas-period-hint">Costs included between these dates</div></div>', unsafe_allow_html=True)
+d1, arrow_col, d2 = st.columns([1, 0.08, 1])
 with d1:
     st.markdown('<div class="pas-date-shell"><div class="pas-date-label">From</div>', unsafe_allow_html=True)
     report_from = st.date_input(
@@ -917,6 +986,8 @@ with d1:
         help="Only costs from this date onward will be included in the dashboard and export.",
     )
     st.markdown('</div>', unsafe_allow_html=True)
+with arrow_col:
+    st.markdown('<div class="pas-date-arrow">→</div>', unsafe_allow_html=True)
 with d2:
     st.markdown('<div class="pas-date-shell"><div class="pas-date-label">To</div>', unsafe_allow_html=True)
     report_to = st.date_input(
@@ -941,7 +1012,7 @@ if "live_cost_results" not in st.session_state:
 
 if run:
     if not all([material_file, labour_file, forecast_file]):
-        st.warning("Please upload the Materials & Plant Spreadsheet, Labour Spreadsheet and Forecast Spreadsheet. Vehicles Spreadsheet is optional for first testing.")
+        st.warning("Please upload the Materials & Plant, Labour and Forecast spreadsheets. Vehicles spreadsheet is optional for first testing.")
         render_bottom_chase()
         st.stop()
     try:
@@ -997,15 +1068,15 @@ variance_total = summary["Live Variance"].sum() if not summary.empty else 0
 
 k1, k2, k3, k4, k5 = st.columns(5)
 with k1:
-    render_kpi("Overall Forecast", format_currency(forecast_total), "Forecast total across all sites")
+    render_kpi("Forecast Cost", format_currency(forecast_total))
 with k2:
-    render_kpi("Actual Cost", format_currency(actual_total), "Actual spend from uploads")
+    render_kpi("Actual Cost", format_currency(actual_total))
 with k3:
-    render_kpi("Forecast Profit", format_currency(profit_total), "Profit from Forecast Spreadsheet")
+    render_kpi("Forecast Profit", format_currency(profit_total))
 with k4:
-    render_kpi("Actual Profit", format_currency(actual_profit_total), "Forecast less actual costs and overhead")
+    render_kpi("Actual Profit", format_currency(actual_profit_total))
 with k5:
-    render_kpi("Live Variance", format_currency(variance_total), "Forecast minus actual")
+    render_kpi("Variance", format_currency(variance_total))
 
 st.markdown('<div class="pas-results-title">Live Cost Results</div>', unsafe_allow_html=True)
 st.markdown('<div class="pas-unmatched-pill">Site Summary</div>', unsafe_allow_html=True)

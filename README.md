@@ -1,23 +1,17 @@
 # PAS Live Cost Dashboard
 
-Streamlit app for building a weekly PAS live cost dashboard from uploaded spreadsheets.
+Streamlit app for PAS NW Ltd live cost reporting.
+
+## Files
+- `app.py` — Streamlit application
+- `requirements.txt` — Python dependencies
+- `pas_logo.png` — PAS logo used by the app
 
 ## Uploads
-
+Upload all live-cost spreadsheets into the single uploader:
 - Materials & Plant Spreadsheet
 - Vehicles Spreadsheet
 - Labour Spreadsheet
 - Forecast Spreadsheet
 
-## Output
-
-- Site Summary dashboard
-- KPI cards including Overall Forecast, Actual Cost, Forecast Profit, Actual Profit and Live Variance
-- Excel export with summary and site tabs
-
-## Run locally
-
-```bash
-pip install -r requirements.txt
-streamlit run app.py
-```
+The app detects each workbook automatically, then builds a site summary report for the selected reporting period.

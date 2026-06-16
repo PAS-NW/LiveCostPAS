@@ -935,21 +935,38 @@ def build_monthly(actuals):
 
 
 def safe_excel_sheet_name(value, used_names=None):
-    """Return a valid, unique Excel worksheet name."""
+    """Return a valid, unique Excel worksheet name.
+
+    XlsxWriter is very strict: sheet names cannot contain []:*?/\\,
+    cannot start/end with apostrophes, and must be 31 characters or fewer.
+    This version is deliberately aggressive and keeps only safe characters so
+    job references like P123/H456 or site names with punctuation never crash
+    the export.
+    """
     if used_names is None:
         used_names = set()
-    name = str(value or "Site").strip()
-    name = re.sub(r"[\[\]\:\*\?\/\\]", "-", name)
-    name = re.sub(r"\s+", " ", name).strip(" .'")
+
+    raw = "" if value is None else str(value)
+    raw = raw.replace("\u00a0", " ").strip()
+
+    # Remove Excel-forbidden characters and any other punctuation that may be
+    # rejected by cloud Excel writers. Keep letters, numbers, spaces, hyphens
+    # and underscores only.
+    name = re.sub(r"[\x00-\x1F\x7F]", "", raw)
+    name = re.sub(r"[^A-Za-z0-9 _-]+", "-", name)
+    name = re.sub(r"[- ]+", " ", name).strip(" .'-_")
+
     if not name:
         name = "Site"
-    base = name[:31]
+
+    base = name[:31].strip(" .'-_") or "Site"
     candidate = base
     counter = 1
     while candidate.lower() in used_names:
         suffix = f"_{counter}"
-        candidate = base[:31 - len(suffix)] + suffix
+        candidate = (base[:31 - len(suffix)] + suffix).strip(" .'-_") or f"Site_{counter}"
         counter += 1
+
     used_names.add(candidate.lower())
     return candidate
 

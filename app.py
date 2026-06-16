@@ -80,12 +80,32 @@ st.markdown(
     div[data-testid="stFileUploader"] section {{ background: transparent !important; border: 0 !important; min-height: 0 !important; padding: 0 !important; }}
     div[data-testid="stFileUploaderDropzone"] {{ background: transparent !important; border: 0 !important; padding: 0 !important; min-height: 0 !important; }}
     div[data-testid="stFileUploaderDropzoneInstructions"] {{ display: none !important; }}
+    /* Hide Streamlit's ugly uploaded-file chips globally. Streamlit renders these
+       outside/inside the uploader depending on version, so both global and
+       descendant selectors are needed. */
+    [data-testid="stFileUploaderFile"],
+    [data-testid="stFileUploaderFileName"],
+    [data-testid="stFileUploaderFileSize"],
     div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"],
     div[data-testid="stFileUploader"] [data-testid="stFileUploaderFileName"],
     div[data-testid="stFileUploader"] [data-testid="stFileUploaderFileSize"],
     div[data-testid="stFileUploader"] ul,
     div[data-testid="stFileUploader"] div[role="list"],
-    div[data-testid="stFileUploader"] div[role="listitem"] {{ display:none !important; visibility:hidden !important; height:0 !important; min-height:0 !important; margin:0 !important; padding:0 !important; overflow:hidden !important; }}
+    div[data-testid="stFileUploader"] div[role="listitem"],
+    div[data-testid="stFileUploader"] div:has(button[title*="Remove"]),
+    div[data-testid="stFileUploader"] div:has(button[aria-label*="Remove"]),
+    div[data-testid="stFileUploader"] div:has(svg[data-testid="DeleteIcon"]) {{
+        display:none !important; visibility:hidden !important; height:0 !important;
+        max-height:0 !important; min-height:0 !important; width:0 !important;
+        max-width:0 !important; margin:0 !important; padding:0 !important;
+        overflow:hidden !important; opacity:0 !important; pointer-events:none !important;
+    }}
+    /* When files are already uploaded, hide the extra +/browse button as well. */
+    div[data-testid="stFileUploader"]:has([data-testid="stFileUploaderFile"]) button {{
+        display:none !important; visibility:hidden !important; height:0 !important;
+        min-height:0 !important; margin:0 !important; padding:0 !important;
+        overflow:hidden !important; opacity:0 !important; pointer-events:none !important;
+    }}
     div[data-testid="stFileUploader"] button {{ background:#FFD400 !important; color:#0A0A0A !important; border:1px solid #0A0A0A !important; border-radius:12px !important; font-weight:950 !important; min-height:48px !important; box-shadow:0 4px 14px rgba(255,212,0,.18) !important; }}
     div[data-testid="stFileUploader"] button * {{ color:#0A0A0A !important; fill:#0A0A0A !important; stroke:#0A0A0A !important; }}
     div[data-testid="stFileUploader"] small {{ color:#4b5563 !important; }}

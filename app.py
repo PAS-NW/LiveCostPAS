@@ -6,7 +6,6 @@ import re
 
 import numpy as np
 import pandas as pd
-import plotly.express as px
 import streamlit as st
 
 PAS_YELLOW = "#FFD400"
@@ -20,7 +19,7 @@ st.markdown(
     f"""
     <style>
     .stApp {{ background: #f7f8fa !important; color: #0A0A0A !important; font-family: Inter, "Segoe UI", Arial, sans-serif; }}
-    .block-container {{ max-width: 1580px !important; padding-top: 2.25rem !important; padding-left: 2rem !important; padding-right: 2rem !important; padding-bottom: 2rem !important; }}
+    .block-container {{ max-width: 1580px !important; padding-top: 1.35rem !important; padding-left: 2rem !important; padding-right: 2rem !important; padding-bottom: 2rem !important; }}
 
     /* Keep date input and form labels readable on the main page */
     div[data-testid="stWidgetLabel"],
@@ -31,6 +30,19 @@ st.markdown(
     section[data-testid="stSidebar"] label *,
     section[data-testid="stSidebar"] div[data-testid="stWidgetLabel"],
     section[data-testid="stSidebar"] div[data-testid="stWidgetLabel"] * {{ color:#ffffff !important; }}
+
+    /* Date inputs: keep as clean calendar fields, not dark blocks */
+    div[data-testid="stDateInput"] input,
+    div[data-testid="stDateInput"] button,
+    div[data-baseweb="input"] input {{
+        background:#ffffff !important;
+        color:#0A0A0A !important;
+        border-color:#d7dce3 !important;
+        border-radius:10px !important;
+        font-weight:850 !important;
+    }}
+    div[data-testid="stDateInput"] svg {{ color:#0A0A0A !important; fill:#0A0A0A !important; }}
+
 
     section[data-testid="stSidebar"] {{ background: linear-gradient(180deg, #050606 0%, #0b1015 100%) !important; border-right: 1px solid #161b22; }}
     section[data-testid="stSidebar"] > div:first-child {{ padding-top: 1.05rem !important; }}
@@ -182,20 +194,8 @@ def _file_size_label(uploaded_file):
 
 
 def render_selected_file_card(uploaded_file):
-    if not uploaded_file:
-        return
-    name = escape(getattr(uploaded_file, "name", "Uploaded file"))
-    size = escape(_file_size_label(uploaded_file))
-    st.markdown(
-        f"""
-        <div class="pas-file-card">
-            <div class="pas-file-icon excel">XLS</div>
-            <div class="pas-file-main"><div class="pas-file-name">{name}</div><div class="pas-file-size">{size}</div></div>
-            <div class="pas-file-check">✓</div>
-        </div>
-        """,
-        unsafe_allow_html=True,
-    )
+    """Native uploader only. Avoid extra uploaded-file cards/black boxes."""
+    return
 
 
 def render_kpi(label, value, sub=""):
@@ -789,9 +789,7 @@ def excel_export(summary, monthly, raw, issues):
     output = BytesIO()
     with pd.ExcelWriter(output, engine="xlsxwriter", datetime_format="dd/mm/yyyy", date_format="dd/mm/yyyy") as writer:
         summary.to_excel(writer, sheet_name="Summary", index=False)
-        monthly.to_excel(writer, sheet_name="Monthly Breakdown", index=False)
         raw.to_excel(writer, sheet_name="Raw Data", index=False)
-        pd.DataFrame(issues).to_excel(writer, sheet_name="Issues", index=False)
 
         workbook = writer.book
         header_fmt = workbook.add_format({"bold": True, "bg_color": "#FFD400", "font_color": "#111111", "border": 1})
@@ -799,7 +797,7 @@ def excel_export(summary, monthly, raw, issues):
         pct_fmt = workbook.add_format({"num_format": "0.0%", "border": 1})
         body_fmt = workbook.add_format({"border": 1})
 
-        for sheet_name, df in [("Summary", summary), ("Monthly Breakdown", monthly), ("Raw Data", raw), ("Issues", pd.DataFrame(issues))]:
+        for sheet_name, df in [("Summary", summary), ("Raw Data", raw)]:
             ws = writer.sheets[sheet_name]
             ws.freeze_panes(1, 0)
             ws.set_row(0, 24, header_fmt)
@@ -879,9 +877,9 @@ with up4:
 st.markdown('<div class="pas-upload-card"><div class="pas-upload-title">Reporting Period</div>', unsafe_allow_html=True)
 d1, d2 = st.columns(2)
 with d1:
-    report_from = st.date_input("From", value=date(date.today().year, 1, 1), help="Only costs from this date onward will be included in the dashboard and export.")
+    report_from = st.date_input("From", value=date(date.today().year, 1, 1), format="DD/MM/YYYY", help="Only costs from this date onward will be included in the dashboard and export.")
 with d2:
-    report_to = st.date_input("To", value=date.today(), help="Open plant and vehicle hires are costed up to this date. Costs after this date are excluded.")
+    report_to = st.date_input("To", value=date.today(), format="DD/MM/YYYY", help="Open plant and vehicle hires are costed up to this date. Costs after this date are excluded.")
 st.markdown('</div>', unsafe_allow_html=True)
 
 if report_from > report_to:
@@ -971,41 +969,6 @@ for c in summary_display.columns:
         summary_display[c] = summary_display[c].map(format_currency)
 render_table(summary_display)
 
-st.markdown('<div class="pas-unmatched-pill">S-Curve: Cumulative Actual Cost</div>', unsafe_allow_html=True)
-if not monthly.empty:
-    curve = monthly.groupby("Month", as_index=False)["Cost"].sum().sort_values("Month")
-    curve["Cumulative Actual"] = curve["Cost"].cumsum()
-    curve["Month Label"] = curve["Month"].dt.strftime("%b %Y")
-    curve["Overall Forecast"] = forecast_total
-    fig = px.line(
-        curve,
-        x="Month Label",
-        y=["Cumulative Actual", "Overall Forecast"],
-        markers=True,
-        labels={"value": "Cost", "Month Label": "Month", "variable": "Measure"},
-        title="Cumulative Actual vs Overall Forecast",
-    )
-    fig.update_layout(legend_title_text="", hovermode="x unified", paper_bgcolor="rgba(0,0,0,0)", plot_bgcolor="rgba(0,0,0,0)")
-    st.plotly_chart(fig, use_container_width=True)
-else:
-    st.warning("No monthly costs found to build an S-curve.")
-
-left, right = st.columns([2, 1])
-with left:
-    st.markdown('<div class="pas-unmatched-pill">Monthly Breakdown</div>', unsafe_allow_html=True)
-    if not monthly.empty:
-        monthly_display = monthly.copy()
-        monthly_display["Month"] = monthly_display["Month"].dt.strftime("%d/%m/%Y")
-        monthly_display["Cost"] = monthly_display["Cost"].map(format_currency)
-        render_table(monthly_display, max_rows=200)
-with right:
-    st.markdown('<div class="pas-unmatched-pill">Issues</div>', unsafe_allow_html=True)
-    issue_df = pd.DataFrame(issues)
-    if issue_df.empty:
-        st.success("No issues found.")
-    else:
-        render_table(issue_df, max_rows=100)
-
 st.markdown('<div class="pas-unmatched-pill">Download Report</div>', unsafe_allow_html=True)
 export_bytes = excel_export(summary, monthly, actuals, issues)
 st.download_button(
@@ -1015,13 +978,5 @@ st.download_button(
     mime="application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
     use_container_width=True,
 )
-
-with st.expander("Raw imported cost records"):
-    raw_display = actuals.copy()
-    if not raw_display.empty:
-        raw_display["Cost Date"] = pd.to_datetime(raw_display["Cost Date"], errors="coerce").dt.strftime("%d/%m/%Y")
-        raw_display["Month"] = pd.to_datetime(raw_display["Month"], errors="coerce").dt.strftime("%d/%m/%Y")
-        raw_display["Cost"] = raw_display["Cost"].map(format_currency)
-    render_table(raw_display, max_rows=300)
 
 render_bottom_chase()

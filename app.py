@@ -870,8 +870,19 @@ def build_summary(actuals, forecast, sites):
     summary["Actual Cost"] = summary[[f"Actual {c}" for c in COST_CATEGORIES]].sum(axis=1)
     summary["Actual Profit"] = summary["Overall Forecast"] - summary["Actual Cost"] - summary["Overhead"]
     summary["Live Variance"] = summary["Overall Forecast"] - summary["Actual Cost"]
-    summary["Profit %"] = np.where(summary["Overall Forecast"] != 0, summary["Profit"] / summary["Overall Forecast"], 0)
-    summary["Actual Profit %"] = np.where(summary["Overall Forecast"] != 0, summary["Actual Profit"] / summary["Overall Forecast"], 0)
+    # Safe percentage calculations: avoid division by zero when a job has actual costs
+    # but no forecast loaded/entered yet.
+    def safe_pct(numerator, denominator):
+        try:
+            denominator = float(denominator)
+            if denominator == 0:
+                return 0.0
+            return float(numerator) / denominator
+        except Exception:
+            return 0.0
+
+    summary["Profit %"] = summary.apply(lambda r: safe_pct(r["Profit"], r["Overall Forecast"]), axis=1)
+    summary["Actual Profit %"] = summary.apply(lambda r: safe_pct(r["Actual Profit"], r["Overall Forecast"]), axis=1)
 
     display_cols = ["Job", "Site", "Overall Forecast", "Actual Cost", "Live Variance", "Profit", "Profit %", "Actual Profit", "Actual Profit %"]
     display_cols += [f"Forecast {c}" for c in COST_CATEGORIES]

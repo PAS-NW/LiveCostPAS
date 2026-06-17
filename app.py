@@ -1055,71 +1055,142 @@ def excel_export(summary, monthly, raw, issues):
 
 
 # ============================================================
-# PAS Live Cost UI
+# PAS Live Cost UI - PAS Modern Dashboard v2.0
 # ============================================================
 
-st.markdown("""
-<div class="pas-upload-card">
-  <div class="pas-upload-head">
-    <div class="pas-upload-icon">☁</div>
-    <div>
-      <div class="pas-upload-title">Upload Live Cost Spreadsheets</div>
-      <div class="pas-upload-subtitle">Upload your latest spreadsheets to build the live cost report</div>
-    </div>
-  </div>
-""", unsafe_allow_html=True)
-uploaded_files = st.file_uploader(
-    "Upload Live Cost Spreadsheets",
-    type=["xlsx", "xlsm", "xls"],
-    accept_multiple_files=True,
-    label_visibility="collapsed",
-    help="Upload the Materials & Plant, Vehicles, Labour and Forecast spreadsheets together.",
-    key="single_live_cost_uploader",
-)
+st.markdown('''
+<style>
+.block-container { max-width: 1500px !important; padding-top: 1.25rem !important; }
+.pas-hero { margin-top: 0.65rem !important; min-height: 68px !important; border-radius: 12px !important; }
+.pas-hero-logo { width: 50px !important; height: 50px !important; font-size: 18px !important; }
+.pas-hero-text { font-size: 25px !important; }
+.pas-hero-version { font-size: 20px !important; }
+section[data-testid="stSidebar"] { background: radial-gradient(circle at top left,#101923 0,#05090d 48%,#020304 100%) !important; }
+section[data-testid="stSidebar"] img { border-radius: 14px !important; box-shadow: 0 12px 30px rgba(0,0,0,.38) !important; }
+.pas-sidebar-title { font-size: 25px !important; line-height:1.18 !important; text-align:left !important; margin: 18px 0 20px !important; }
+.pas-sidebar-copy { font-size: 16px !important; line-height:1.55 !important; }
+.pas-sidebar-heading { font-size: 15px !important; color:#FFD400 !important; letter-spacing:.02em; }
+.pas-nav-row { grid-template-columns: 34px 1fr !important; font-size:17px !important; margin: 22px 0 !important; align-items:center !important; }
+.pas-nav-icon svg { width:26px !important; height:26px !important; }
+.pas-sidebar-footer { font-size:15px !important; line-height:1.45 !important; }
+.pas-modern-card { background:#fff; border:1px solid #dfe4ea; border-radius:18px; box-shadow:0 8px 24px rgba(15,23,42,.08); padding:28px; margin: 0 0 22px; }
+.pas-section-head { display:flex; align-items:center; gap:18px; margin-bottom:20px; }
+.pas-section-icon { width:58px; height:58px; border-radius:50%; background:#fff0ad; display:flex; align-items:center; justify-content:center; color:#0A0A0A; flex:none; }
+.pas-section-icon svg { width:31px; height:31px; stroke:#0A0A0A; stroke-width:2.25; fill:none; stroke-linecap:round; stroke-linejoin:round; }
+.pas-section-title { font-size:28px; font-weight:950; color:#0A0A0A; line-height:1.05; }
+.pas-section-sub { color:#475569; font-size:17px; font-weight:600; margin-top:5px; }
+div[data-testid="stFileUploader"] { margin:0 !important; }
+div[data-testid="stFileUploader"] label { display:none !important; }
+div[data-testid="stFileUploaderDropzone"] { background:#ffffff !important; border:2px dashed #cbd5e1 !important; border-radius:14px !important; min-height:140px !important; display:flex !important; align-items:center !important; justify-content:center !important; padding:24px !important; }
+div[data-testid="stFileUploaderDropzoneInstructions"] { display:block !important; color:#475569 !important; font-size:17px !important; font-weight:600 !important; }
+div[data-testid="stFileUploader"] button { background:#ffffff !important; color:#0A0A0A !important; border:1px solid #cbd5e1 !important; border-radius:8px !important; font-weight:850 !important; min-height:52px !important; padding:0 30px !important; box-shadow:0 2px 8px rgba(15,23,42,.04) !important; }
+[data-testid="stFileUploaderFile"], [data-testid="stFileUploaderFileName"], [data-testid="stFileUploaderFileSize"], div[data-testid="stFileUploader"] [data-testid="stFileUploaderFile"], div[data-testid="stFileUploader"] ul, div[data-testid="stFileUploader"] div[role="list"], div[data-testid="stFileUploader"] div[role="listitem"] { display:none !important; visibility:hidden !important; height:0 !important; margin:0 !important; padding:0 !important; overflow:hidden !important; }
+.detect-row { display:flex; align-items:center; justify-content:space-between; gap:14px; border:1px solid #dfe4ea; border-radius:9px; padding:15px 18px; margin: 0 0 12px; background:#fff; }
+.detect-left { display:flex; align-items:center; gap:16px; color:#0A0A0A; font-size:17px; font-weight:800; }
+.excel-badge { width:28px; height:28px; border-radius:4px; background:#16833a; color:white; display:flex; align-items:center; justify-content:center; font-size:17px; font-weight:950; }
+.detect-right { display:flex; align-items:center; gap:10px; color:#334155; font-size:16px; font-weight:650; }
+.detect-check { width:22px; height:22px; border-radius:50%; background:#16a34a; color:white; display:flex; align-items:center; justify-content:center; font-size:15px; font-weight:950; }
+.detect-missing .excel-badge { background:#cbd5e1; }
+.detect-missing .detect-check { background:#cbd5e1; color:#475569; }
+.pas-report-card { background:#fff; border:1px solid #dfe4ea; border-radius:18px; box-shadow:0 8px 24px rgba(15,23,42,.08); padding:28px; margin: 4px 0 22px; }
+.pas-report-card .stButton > button { min-height:58px !important; border-radius:8px !important; font-size:20px !important; font-weight:950 !important; background:#FFD400 !important; color:#0A0A0A !important; box-shadow:0 8px 18px rgba(255,212,0,.24) !important; }
+.pas-date-label-v2 { color:#0A0A0A; font-size:16px; font-weight:900; margin:0 0 8px; }
+div[data-testid="stDateInput"] { width:100% !important; }
+div[data-testid="stDateInput"] > div { width:100% !important; }
+div[data-testid="stDateInput"] label { display:none !important; }
+div[data-baseweb="input"], div[data-baseweb="select"] { border:1px solid #cbd5e1 !important; box-shadow:none !important; border-radius:8px !important; background:#fff !important; min-height:56px !important; }
+div[data-baseweb="input"]:focus-within, div[data-baseweb="select"]:focus-within { border-color:#94a3b8 !important; box-shadow:0 0 0 3px rgba(148,163,184,.18) !important; }
+div[data-testid="stDateInput"] input { border:0 !important; box-shadow:none !important; background:#fff !important; color:#0A0A0A !important; font-size:20px !important; font-weight:700 !important; min-height:54px !important; padding-left:14px !important; }
+div[data-testid="stDateInput"] button { border:0 !important; box-shadow:none !important; background:#fff !important; min-height:54px !important; }
+.kpi-card { height:128px !important; min-height:128px !important; border-radius:14px !important; padding:18px 24px !important; gap:20px !important; }
+.kpi-icon { width:62px !important; height:62px !important; background:#fff0ad !important; }
+.kpi-label { font-size:16px !important; font-weight:700 !important; color:#1f2937 !important; }
+.kpi-value { color:#0A0A0A !important; font-size:30px !important; }
+.kpi-small { color:#334155; font-size:15px; font-weight:650; margin-top:-18px; padding-left:92px; }
+.pas-results-title { display:none !important; }
+.pas-unmatched-pill { display:none !important; }
+.site-summary-card { background:#fff; border:1px solid #dfe4ea; border-radius:14px; box-shadow:0 8px 24px rgba(15,23,42,.07); padding:20px 22px; margin-top:18px; }
+.site-summary-title { color:#0A0A0A; font-size:26px; font-weight:950; margin-bottom:14px; }
+.pas-table-wrap { border-radius:8px !important; box-shadow:none !important; border:1px solid #dfe4ea !important; max-height:500px !important; }
+table.pas-table thead th { background:#f8fafc !important; color:#0f172a !important; border:1px solid #dfe4ea !important; font-weight:850 !important; }
+table.pas-table tbody td { border:1px solid #eef2f7 !important; }
+</style>
+''', unsafe_allow_html=True)
+
+upload_col, detect_col = st.columns([1, 1], gap="large")
+with upload_col:
+    st.markdown('''
+    <div class="pas-modern-card">
+      <div class="pas-section-head">
+        <div class="pas-section-icon"><svg viewBox="0 0 24 24"><path d="M16 16l-4-4-4 4"/><path d="M12 12v9"/><path d="M20 16.6A5 5 0 0 0 18 7h-1.3A8 8 0 1 0 4 15.3"/></svg></div>
+        <div><div class="pas-section-title">Upload Live Cost Spreadsheet</div><div class="pas-section-sub">Upload your live cost and forecast spreadsheets</div></div>
+      </div>
+    ''', unsafe_allow_html=True)
+    uploaded_files = st.file_uploader(
+        "Upload Live Cost Spreadsheets",
+        type=["xlsx", "xlsm", "xls"],
+        accept_multiple_files=True,
+        label_visibility="collapsed",
+        help="Upload the Materials & Plant, Vehicles, Labour and Forecast spreadsheets together.",
+        key="single_live_cost_uploader",
+    )
+    st.markdown('</div>', unsafe_allow_html=True)
+
 detected_files = detect_uploaded_files(uploaded_files)
 
-s1, s2 = st.columns(2)
-with s1:
-    render_detection_status("Materials & Plant Spreadsheet", detected_files.get("materials"))
-    render_detection_status("Labour Spreadsheet", detected_files.get("labour"))
-with s2:
-    render_detection_status("Vehicles Spreadsheet", detected_files.get("vehicles"))
-    render_detection_status("Forecast Spreadsheet", detected_files.get("forecast"))
-st.markdown('</div>', unsafe_allow_html=True)
+def render_detect_row(label, info):
+    klass = "detect-row" if info else "detect-row detect-missing"
+    status = "Detected" if info else "Not detected"
+    tick = "✓" if info else "○"
+    st.markdown(f'''
+    <div class="{klass}">
+      <div class="detect-left"><div class="excel-badge">X</div><div>{escape(label)}</div></div>
+      <div class="detect-right"><div class="detect-check">{tick}</div><div>{status}</div></div>
+    </div>
+    ''', unsafe_allow_html=True)
+
+with detect_col:
+    st.markdown('<div class="pas-modern-card"><div class="pas-section-title" style="margin-bottom:18px;">Detected Files</div>', unsafe_allow_html=True)
+    render_detect_row("Forecast Spreadsheet", detected_files.get("forecast"))
+    render_detect_row("Labour Cost Spreadsheet", detected_files.get("labour"))
+    render_detect_row("Plant Cost Spreadsheet", detected_files.get("materials"))
+    render_detect_row("Vehicles Spreadsheet", detected_files.get("vehicles"))
+    st.markdown('</div>', unsafe_allow_html=True)
 
 material_file = file_to_bytesio(detected_files.get("materials"))
 vehicle_file = file_to_bytesio(detected_files.get("vehicles"))
 labour_file = file_to_bytesio(detected_files.get("labour"))
 forecast_file = file_to_bytesio(detected_files.get("forecast"))
 
-with st.container(border=True):
-    st.markdown('<div class="pas-period-title">Reporting Period</div>', unsafe_allow_html=True)
-    outer_l, centre, outer_r = st.columns([0.45, 3.1, 0.45])
-    with centre:
-        date_col_1, date_col_2 = st.columns(2, gap="large")
-        with date_col_1:
-            report_from = st.date_input(
-                "From",
-                value=date(date.today().year, 1, 1),
-                format="DD/MM/YYYY",
-                label_visibility="visible",
-                key="report_from_date",
-            )
-        with date_col_2:
-            report_to = st.date_input(
-                "To",
-                value=date.today(),
-                format="DD/MM/YYYY",
-                label_visibility="visible",
-                key="report_to_date",
-            )
-        st.markdown('<div class="pas-period-button-row">', unsafe_allow_html=True)
-        button_col_1, button_col_2 = st.columns(2, gap="large")
-        with button_col_1:
-            run_all = st.button("▷  Build Report - All Sites", use_container_width=True)
-        with button_col_2:
-            run_forecast_only = st.button("▷  Build Report - Forecast Sites Only", use_container_width=True)
-        st.markdown('</div>', unsafe_allow_html=True)
+st.markdown('''
+<div class="pas-report-card">
+  <div class="pas-section-head" style="margin-bottom:12px;">
+    <div class="pas-section-icon"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="18" rx="2"/><path d="M16 2v4"/><path d="M8 2v4"/><path d="M3 10h18"/><path d="M8 14h.01"/><path d="M12 14h.01"/><path d="M16 14h.01"/></svg></div>
+    <div><div class="pas-section-title">Reporting Period</div><div class="pas-section-sub">Select the date range for the report</div></div>
+  </div>
+''', unsafe_allow_html=True)
+date_col_1, date_col_2 = st.columns(2, gap="large")
+with date_col_1:
+    st.markdown('<div class="pas-date-label-v2">From</div>', unsafe_allow_html=True)
+    report_from = st.date_input(
+        "From",
+        value=date(date.today().year, 1, 1),
+        format="DD/MM/YYYY",
+        label_visibility="collapsed",
+        key="report_from_date",
+    )
+with date_col_2:
+    st.markdown('<div class="pas-date-label-v2">To</div>', unsafe_allow_html=True)
+    report_to = st.date_input(
+        "To",
+        value=date.today(),
+        format="DD/MM/YYYY",
+        label_visibility="collapsed",
+        key="report_to_date",
+    )
+run_all = st.button("▷  Build Report - All Sites", use_container_width=True)
+run_forecast_only = st.button("▷  Build Report - Forecast Sites Only", use_container_width=True)
+st.markdown('</div>', unsafe_allow_html=True)
 
 run = run_all or run_forecast_only
 run_mode = "forecast_only" if run_forecast_only else "all_sites"
@@ -1198,20 +1269,22 @@ profit_total = summary["Profit"].sum() if not summary.empty else 0
 actual_profit_total = summary["Actual Profit"].sum() if "Actual Profit" in summary.columns and not summary.empty else 0
 variance_total = summary["Live Variance"].sum() if not summary.empty else 0
 
-k1, k2, k3, k4, k5 = st.columns(5)
+k1, k2, k3, k4 = st.columns(4)
 with k1:
-    render_kpi("Forecast Cost", format_currency(forecast_total))
+    render_kpi("Total Actual Cost", format_currency(actual_total))
+    st.markdown(f'<div class="kpi-small">vs Forecast: {format_currency(forecast_total)} ({(actual_total/forecast_total if forecast_total else 0):.1%})</div>', unsafe_allow_html=True)
 with k2:
-    render_kpi("Actual Cost", format_currency(actual_total))
+    render_kpi("Total Forecast", format_currency(forecast_total))
+    st.markdown(f'<div class="kpi-small">vs Actual: {format_currency(actual_total)} ({(actual_total/forecast_total if forecast_total else 0):.1%})</div>', unsafe_allow_html=True)
 with k3:
-    render_kpi("Forecast Profit", format_currency(profit_total))
-with k4:
-    render_kpi("Actual Profit", format_currency(actual_profit_total))
-with k5:
     render_kpi("Variance", format_currency(variance_total))
+    st.markdown(f'<div class="kpi-small">{(variance_total/forecast_total if forecast_total else 0):.1%}</div>', unsafe_allow_html=True)
+with k4:
+    perf = (actual_total / forecast_total) if forecast_total else 0
+    render_kpi("Cost Performance", f"{perf:.1%}")
+    st.markdown('<div class="kpi-small">vs Forecast</div>', unsafe_allow_html=True)
 
-st.markdown('<div class="pas-results-title">Live Cost Results</div>', unsafe_allow_html=True)
-st.markdown('<div class="pas-unmatched-pill">Site Summary</div>', unsafe_allow_html=True)
+st.markdown('<div class="site-summary-card"><div class="site-summary-title">Site Summary</div>', unsafe_allow_html=True)
 summary_display_cols = ["Job", "Site", "Overall Forecast", "Actual Cost", "Live Variance", "Profit", "Profit %", "Actual Profit", "Actual Profit %"]
 summary_display = summary[summary_display_cols].copy() if not summary.empty else pd.DataFrame(columns=summary_display_cols)
 for c in summary_display.columns:
@@ -1220,6 +1293,7 @@ for c in summary_display.columns:
     elif c not in ["Job", "Site"]:
         summary_display[c] = summary_display[c].map(format_currency)
 render_table(summary_display)
+st.markdown("</div>", unsafe_allow_html=True)
 
 st.markdown('<div class="pas-unmatched-pill">Download Report</div>', unsafe_allow_html=True)
 export_bytes = excel_export(summary, monthly, actuals, issues)

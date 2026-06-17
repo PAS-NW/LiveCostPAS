@@ -19,7 +19,7 @@ st.markdown(
     f"""
     <style>
     .stApp {{ background: #f7f8fa !important; color: #0A0A0A !important; font-family: Inter, "Segoe UI", Arial, sans-serif; }}
-    .block-container {{ max-width: 1580px !important; padding-top: 2.35rem !important; padding-left: 2rem !important; padding-right: 2rem !important; padding-bottom: 2rem !important; }}
+    .block-container {{ max-width: 1580px !important; padding-top: 2.1rem !important; padding-left: 2rem !important; padding-right: 2rem !important; padding-bottom: 2rem !important; }}
 
     /* Keep date input and form labels readable on the main page */
     div[data-testid="stWidgetLabel"],
@@ -57,17 +57,14 @@ st.markdown(
     .pas-nav-icon svg {{ width:21px; height:21px; stroke:{PAS_YELLOW}; stroke-width:2.4; fill:none; stroke-linecap:round; stroke-linejoin:round; }}
     .pas-sidebar-footer {{ color:#fff; font-size:12px; font-weight:800; margin-top:28px; }}
 
-    .pas-hero {{ display:flex; align-items:center; gap:16px; background: linear-gradient(100deg, #08090b 0%, #151718 70%, #c9aa00 130%) !important; border-radius: 16px !important; padding: 12px 22px !important; margin: 22px 0 18px 0 !important; box-shadow: 0 9px 25px rgba(0,0,0,.13) !important; min-height:60px; }}
+    .pas-hero {{ display:flex; align-items:center; gap:16px; background: linear-gradient(100deg, #08090b 0%, #151718 70%, #c9aa00 130%) !important; border-radius: 16px !important; padding: 12px 22px !important; margin: 28px 0 18px 0 !important; box-shadow: 0 9px 25px rgba(0,0,0,.13) !important; min-height:60px; }}
     .pas-hero-logo {{ width:37px; height:37px; border-radius:7px; background:{PAS_YELLOW}; color:#000; display:inline-flex; align-items:center; justify-content:center; font-weight:950; font-size:14px; letter-spacing:-1px; }}
     .pas-hero-text {{ color:#fff; font-size:18px; font-weight:950; letter-spacing:-.02em; }}
     .pas-hero-dot {{ color:#fff; opacity:.8; margin: 0 7px; }}
     .pas-hero-version {{ color:{PAS_YELLOW}; font-weight:950; }}
 
     .pas-upload-card {{ background:#fff; border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 5px 18px rgba(15,23,42,.08); padding:28px 34px 30px; margin-bottom:24px; }}
-    .pas-upload-head {{ display:flex; align-items:center; justify-content:space-between; gap:24px; margin-bottom:22px; }}
-    .pas-upload-left {{ display:flex; align-items:center; gap:18px; min-width:0; }}
-    .pas-upload-action {{ flex:none; min-width:210px; }}
-    .pas-upload-action [data-testid="stFileUploader"] {{ width:100% !important; }}
+    .pas-upload-head {{ display:flex; align-items:center; gap:18px; margin-bottom:22px; }}
     .pas-upload-icon {{ width:56px; height:56px; border-radius:16px; background:#FFD400; color:#0A0A0A; display:flex; align-items:center; justify-content:center; font-size:28px; font-weight:950; box-shadow:0 6px 18px rgba(255,212,0,.22); }}
     .pas-upload-title {{ color:#0A0A0A; font-size:26px; font-weight:950; line-height:1.05; margin:0; }}
     .pas-upload-subtitle {{ color:#64748b; font-size:16px; font-weight:750; margin-top:4px; }}
@@ -75,11 +72,10 @@ st.markdown(
     .pas-upload-status.missing {{ background:#f7f8fa; border:1px solid #dfe3e8; color:#475569; }}
     .pas-upload-tick {{ width:38px; height:38px; border-radius:50%; background:#0ca13a; color:white; display:inline-flex; align-items:center; justify-content:center; font-size:24px; font-weight:950; flex:none; }}
 
-    .pas-period-card {{ background:#fff; border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 5px 18px rgba(15,23,42,.08); padding:26px 34px 30px; margin: 2px 0 22px; }}
-    .pas-period-title {{ text-align:center; color:#0A0A0A; font-size:26px; font-weight:950; line-height:1.1; margin:0 0 22px; }}
-    .pas-period-row {{ display:flex; align-items:stretch; justify-content:center; gap:22px; }}
-    .pas-date-shell {{ background:#f7f8fa; border:1px solid #dfe3e8; border-radius:16px; padding:14px 18px 16px; box-shadow:0 2px 10px rgba(15,23,42,.03); min-height:86px; }}
-    .pas-date-label {{ color:#0A0A0A; font-size:16px; font-weight:950; margin:0 0 5px; }}
+    .pas-period-title {{ text-align:center; color:#0A0A0A; font-size:26px; font-weight:950; line-height:1.1; margin:0 0 20px; }}
+    .pas-report-card {{ background:#ffffff; border:1px solid #e5e7eb; border-radius:18px; box-shadow:0 5px 18px rgba(15,23,42,.08); padding:28px 34px 30px; margin: 2px 0 22px; }}
+    .pas-report-centre {{ max-width: 980px; margin: 0 auto; }}
+    .pas-period-button-wrap {{ margin-top:22px; }}
     div[data-testid="stVerticalBlockBorderWrapper"] {{
         background:#ffffff !important;
         border:1px solid #e5e7eb !important;
@@ -88,25 +84,34 @@ st.markdown(
         padding:24px 28px 30px !important;
         margin: 2px 0 22px !important;
     }}
-    div[data-testid="stDateInput"] {{ max-width:100% !important; }}
+    div[data-testid="stDateInput"] {{
+        max-width:100% !important;
+        background:#f7f8fa !important;
+        border:1px solid #dfe3e8 !important;
+        border-radius:16px !important;
+        padding:14px 18px 16px !important;
+        box-shadow:0 2px 10px rgba(15,23,42,.03) !important;
+    }}
     div[data-testid="stDateInput"] > div {{ max-width:100% !important; }}
+    div[data-testid="stDateInput"] label,
+    div[data-testid="stDateInput"] label * {{
+        color:#0A0A0A !important;
+        font-size:16px !important;
+        font-weight:950 !important;
+        margin-bottom:8px !important;
+    }}
     div[data-testid="stDateInput"] input {{
-        min-height:38px !important;
-        height:38px !important;
-        padding:4px 0 !important;
+        min-height:52px !important;
+        height:52px !important;
+        padding:11px 14px !important;
         font-size:20px !important;
-        font-weight:900 !important;
-        border-radius:0 !important;
-        border:0 !important;
-        background:transparent !important;
-        box-shadow:none !important;
+        font-weight:850 !important;
+        border-radius:12px !important;
+        border:1px solid #d1d7de !important;
+        background:#ffffff !important;
     }}
-    div[data-testid="stDateInput"] div[data-baseweb="input"] {{
-        background:transparent !important; border:0 !important; box-shadow:none !important;
-    }}
-    div[data-testid="stDateInput"] button {{ min-height:38px !important; height:38px !important; border:0 !important; background:transparent !important; box-shadow:none !important; }}
+    div[data-testid="stDateInput"] button {{ min-height:52px !important; border-radius:12px !important; background:#ffffff !important; }}
     .pas-period-button-wrap div.stButton > button {{ min-height:64px !important; font-size:18px !important; border-radius:15px !important; box-shadow:0 8px 18px rgba(255,212,0,.22) !important; }}
-    .pas-period-button-row {{ margin-top:22px; }}
     div[data-testid="stFileUploader"] {{ margin:0 !important; }}
     div[data-testid="stFileUploader"] label {{ display:none !important; }}
     div[data-testid="stFileUploader"] section {{ background: transparent !important; border: 0 !important; min-height: 0 !important; padding: 0 !important; }}
@@ -211,7 +216,7 @@ with st.sidebar:
         <div class="pas-nav-row"><span class="pas-nav-icon"><svg viewBox="0 0 24 24"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><path d="M7 10l5 5 5-5"/><path d="M12 15V3"/></svg></span><span>Download Excel<br>Spreadsheet</span></div>
         <div class="pas-nav-row"><span class="pas-nav-icon"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="M21 21l-4.3-4.3"/></svg></span><span>Smoke Crack</span></div>
         <div class="pas-sidebar-rule"></div>
-        <div class="pas-sidebar-footer">PAS NW Ltd • v1.11 Prototype Build</div>
+        <div class="pas-sidebar-footer">PAS NW Ltd • v1.12 Prototype Build</div>
         """,
         unsafe_allow_html=True,
     )
@@ -220,7 +225,7 @@ st.markdown(
     """
     <div class="pas-hero">
       <div class="pas-hero-logo">PAS</div>
-      <div class="pas-hero-text">PAS Live Cost Dashboard<span class="pas-hero-dot">•</span><span class="pas-hero-version">v1.11 Prototype Build</span></div>
+      <div class="pas-hero-text">PAS Live Cost Dashboard<span class="pas-hero-dot">•</span><span class="pas-hero-version">v1.12 Prototype Build</span></div>
     </div>
     """,
     unsafe_allow_html=True,
@@ -1053,14 +1058,12 @@ def excel_export(summary, monthly, raw, issues):
 st.markdown("""
 <div class="pas-upload-card">
   <div class="pas-upload-head">
-    <div class="pas-upload-left">
-      <div class="pas-upload-icon">☁</div>
-      <div>
-        <div class="pas-upload-title">Upload Live Cost Spreadsheets</div>
-        <div class="pas-upload-subtitle">Upload your latest spreadsheets to build the live cost report</div>
-      </div>
+    <div class="pas-upload-icon">☁</div>
+    <div>
+      <div class="pas-upload-title">Upload Live Cost Spreadsheets</div>
+      <div class="pas-upload-subtitle">Upload your latest spreadsheets to build the live cost report</div>
     </div>
-    <div class="pas-upload-action">
+  </div>
 """, unsafe_allow_html=True)
 uploaded_files = st.file_uploader(
     "Upload Live Cost Spreadsheets",
@@ -1070,10 +1073,6 @@ uploaded_files = st.file_uploader(
     help="Upload the Materials & Plant, Vehicles, Labour and Forecast spreadsheets together.",
     key="single_live_cost_uploader",
 )
-st.markdown("""
-    </div>
-  </div>
-""", unsafe_allow_html=True)
 detected_files = detect_uploaded_files(uploaded_files)
 
 s1, s2 = st.columns(2)
@@ -1090,39 +1089,33 @@ vehicle_file = file_to_bytesio(detected_files.get("vehicles"))
 labour_file = file_to_bytesio(detected_files.get("labour"))
 forecast_file = file_to_bytesio(detected_files.get("forecast"))
 
-st.markdown('<div class="pas-period-card"><div class="pas-period-title">Reporting Period</div>', unsafe_allow_html=True)
-outer_l, centre, outer_r = st.columns([0.55, 2.9, 0.55])
-with centre:
-    date_col_1, date_col_2 = st.columns(2, gap="large")
-    with date_col_1:
-        st.markdown('<div class="pas-date-shell"><div class="pas-date-label">From</div>', unsafe_allow_html=True)
-        report_from = st.date_input(
-            "From",
-            value=date(date.today().year, 1, 1),
-            format="DD/MM/YYYY",
-            label_visibility="collapsed",
-            help="Only costs from this date onward will be included in the dashboard and export.",
-        )
-        st.markdown('</div>', unsafe_allow_html=True)
-    with date_col_2:
-        st.markdown('<div class="pas-date-shell"><div class="pas-date-label">To</div>', unsafe_allow_html=True)
-        report_to = st.date_input(
-            "To",
-            value=date.today(),
-            format="DD/MM/YYYY",
-            label_visibility="collapsed",
-            help="Open plant and vehicle hires are costed up to this date. Costs after this date are excluded.",
-        )
-        st.markdown('</div>', unsafe_allow_html=True)
-    st.markdown('<div class="pas-period-button-row"></div>', unsafe_allow_html=True)
-    btn_col_1, btn_col_2 = st.columns(2, gap="large")
-    with btn_col_1:
-        run_all = st.button("▷  Build Report - All Sites", use_container_width=True)
-    with btn_col_2:
-        run_forecast_only = st.button("▷  Build Report - Forecast Sites Only", use_container_width=True)
-st.markdown('</div>', unsafe_allow_html=True)
-run = run_all or run_forecast_only
-run_mode = "forecast_only" if run_forecast_only else "all"
+st.markdown('<div class="pas-report-card"><div class="pas-report-centre"><div class="pas-period-title">Reporting Period</div>', unsafe_allow_html=True)
+date_col_1, date_col_2 = st.columns(2, gap="large")
+with date_col_1:
+    report_from = st.date_input(
+        "From",
+        value=date(date.today().year, 1, 1),
+        format="DD/MM/YYYY",
+        label_visibility="visible",
+        help="Only costs from this date onward will be included in the dashboard and export.",
+    )
+with date_col_2:
+    report_to = st.date_input(
+        "To",
+        value=date.today(),
+        format="DD/MM/YYYY",
+        label_visibility="visible",
+        help="Open plant and vehicle hires are costed up to this date. Costs after this date are excluded.",
+    )
+st.markdown('<div class="pas-period-button-wrap">', unsafe_allow_html=True)
+button_col_1, button_col_2 = st.columns(2, gap="large")
+with button_col_1:
+    run_all_sites = st.button("▷  Build Report - All Sites", use_container_width=True)
+with button_col_2:
+    run_forecast_sites = st.button("▷  Build Report - Forecast Sites Only", use_container_width=True)
+st.markdown('</div></div></div>', unsafe_allow_html=True)
+run = run_all_sites or run_forecast_sites
+report_scope = "forecast" if run_forecast_sites else "all"
 
 if report_from > report_to:
     st.error("The From date must be before or the same as the To date.")
@@ -1151,16 +1144,16 @@ if run:
             to_ts = pd.Timestamp(report_to)
             actuals = actuals[(actuals["Cost Date"] >= from_ts) & (actuals["Cost Date"] <= to_ts)].copy()
             actuals["Site"] = actuals.apply(lambda r: r["Site"] if str(r["Site"]).strip() else sites.get(r["Job"], ""), axis=1)
-        if run_mode == "forecast_only":
-            forecast_jobs = set(forecast["Job"].dropna().astype(str)) if not forecast.empty and "Job" in forecast.columns else set()
-            if not forecast_jobs:
-                st.warning("Forecast Sites Only was selected, but no job numbers were found in the Forecast Spreadsheet.")
-                render_bottom_chase()
-                st.stop()
-            forecast = forecast[forecast["Job"].isin(forecast_jobs)].copy()
-            if not actuals.empty:
-                actuals = actuals[actuals["Job"].isin(forecast_jobs)].copy()
+        if report_scope == "forecast":
+            forecast_jobs = set(forecast["Job"].astype(str)) if not forecast.empty else set()
+            if forecast_jobs:
+                actuals = actuals[actuals["Job"].astype(str).isin(forecast_jobs)].copy() if not actuals.empty else actuals
+            else:
+                actuals = actuals.iloc[0:0].copy() if not actuals.empty else actuals
         summary = build_summary(actuals, forecast, sites)
+        if report_scope == "forecast" and not forecast.empty:
+            forecast_jobs = set(forecast["Job"].astype(str))
+            summary = summary[summary["Job"].astype(str).isin(forecast_jobs)].copy()
         monthly = build_monthly(actuals)
         st.session_state["live_cost_results"] = {
             "issues": issues,
@@ -1171,7 +1164,7 @@ if run:
             "monthly": monthly,
             "report_from": report_from,
             "report_to": report_to,
-            "run_mode": run_mode,
+            "report_scope": report_scope,
         }
     except Exception as exc:
         st.error(f"Could not build the report: {exc}")
@@ -1190,8 +1183,7 @@ monthly = results["monthly"]
 report_from = results.get("report_from")
 report_to = results.get("report_to")
 if report_from and report_to:
-    mode_label = "Forecast sites only" if results.get("run_mode") == "forecast_only" else "All sites"
-    st.caption(f"Reporting period: {pd.Timestamp(report_from).strftime('%d/%m/%Y')} to {pd.Timestamp(report_to).strftime('%d/%m/%Y')} • {mode_label}")
+    st.caption(f"Reporting period: {pd.Timestamp(report_from).strftime('%d/%m/%Y')} to {pd.Timestamp(report_to).strftime('%d/%m/%Y')}")
 
 forecast_total = summary["Overall Forecast"].sum() if not summary.empty else 0
 actual_total = summary["Actual Cost"].sum() if not summary.empty else 0

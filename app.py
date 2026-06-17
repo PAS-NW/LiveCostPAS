@@ -106,7 +106,7 @@ st.markdown(
     }}
     div[data-testid="stDateInput"] button {{ min-height:38px !important; height:38px !important; border:0 !important; background:transparent !important; box-shadow:none !important; }}
     .pas-period-button-wrap div.stButton > button {{ min-height:64px !important; font-size:18px !important; border-radius:15px !important; box-shadow:0 8px 18px rgba(255,212,0,.22) !important; }}
-    .pas-period-button-row { margin-top:22px; }
+    .pas-period-button-row {{ margin-top:22px; }}
     div[data-testid="stFileUploader"] {{ margin:0 !important; }}
     div[data-testid="stFileUploader"] label {{ display:none !important; }}
     div[data-testid="stFileUploader"] section {{ background: transparent !important; border: 0 !important; min-height: 0 !important; padding: 0 !important; }}
